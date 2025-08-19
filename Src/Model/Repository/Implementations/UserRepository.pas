@@ -38,11 +38,7 @@ var SQL:String;
 begin
   SQL:='UPDATE Usuarios SET active = false WHERE codigo='+Obj.Codigo.ToString;
   Self.FQuery.SQL.Text:=SQL;
-  try
-    Self.FQuery.ExecSQL;
-  finally
-    Self.FQuery.Close;
-  end;
+  Self.FQuery.ExecSQL;
 end;
 
 function TUserRepository.getAll: TObjectList<TUserModel>;
@@ -62,6 +58,7 @@ begin
       UserModel.Password:=Self.FQuery.FieldByName('password').AsString;
       UserModel.Active:=Self.FQuery.FieldByName('active').AsBoolean;
       Result.Add(UserModel);
+      Self.FQuery.Next;
     end;
   finally
     Self.FQuery.Close;
@@ -119,11 +116,7 @@ begin
   SQL:='INSERT INTO Usuarios (nome, login, senha) VALUES ';
   SQL:=SQL+'('+Obj.Name+','+Obj.Login+','+Obj.Password+')';
   Self.FQuery.SQL.Text:=SQL;
-  try
-    Self.FQuery.ExecSQL;
-  finally
-    Self.FQuery.Close;
-  end;
+  Self.FQuery.ExecSQL;
 end;
 
 procedure TUserRepository.Update(Obj: TUserModel);
@@ -136,11 +129,7 @@ begin
   SQL:=SQL+' active = '+Obj.Active.ToString(True);
   SQL:=SQL+' WHERE codigo='+Obj.Codigo.ToString;
   Self.FQuery.SQL.Text:=SQL;
-  try
-    Self.FQuery.ExecSQL;
-  finally
-    Self.FQuery.Close;
-  end;
+  Self.FQuery.ExecSQL;
 end;
 
 end.
